@@ -2,20 +2,18 @@ class myElement extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-
-    this.title = this.getAttribute("title");
-    this.parrafo = this.getAttribute("parrafo");
-    this.img = this.getAttribute("img");
   }
   getTemplate() {
     const template = document.createElement("template");
     template.innerHTML = /*html*/ `
       <section>
-        <h2>${this.title}</h2>
-        <div>
-          <p>${this.parrafo}</p>
-          <img src="${this.img}">
-        </div>
+        <h1>
+          <slot name="title"></slot>
+        </h1>
+        <p>
+          <slot name="parrafo"></slot>
+        </p>
+        <slot></slot>
       </section>
       ${this.getStyles()}
     `;
@@ -23,11 +21,15 @@ class myElement extends HTMLElement {
   }
   getStyles() {
     return /*html*/ `
-      <style>
-        h2 {
-          color: red;
-        }
-      </style>
+    <style>
+      ::slotted(span) {
+        font-size: 30px;
+        color: red;
+      }
+      ::slotted(.text) {
+        color: blue; 
+      }
+    </style>
     `;
   }
   render() {

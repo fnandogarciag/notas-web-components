@@ -2,10 +2,23 @@ class myElement extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+  }
 
-    this.title = this.getAttribute("title");
-    this.parrafo = this.getAttribute("parrafo");
-    this.img = this.getAttribute("img");
+  static get observedAttributes() {
+    return ["title", "parrafo", "img"];
+  }
+  attributeChangedCallback(attr, oldVal, newVal) {
+    if (oldVal !== newVal) {
+      if (attr === "title") {
+        this.title = newVal;
+      }
+      if (attr === "parrafo") {
+        this.parrafo = newVal;
+      }
+      if (attr === "img") {
+        this.img = newVal;
+      }
+    }
   }
   getTemplate() {
     const template = document.createElement("template");
